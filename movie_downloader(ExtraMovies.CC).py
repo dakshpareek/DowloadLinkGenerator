@@ -6,14 +6,17 @@ def make_soup(url):
         html = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.80 Safari/537.36"}).content
     except:
         return None
-    return BeautifulSoup(html, "lxml")
+    return BeautifulSoup(html,"lxml")
 
-url = "http://extramovies.cc/"
-url2 = "http://extramovies.cc/a-monster-calls-2016-full-movie-english-dd5-1-720p-bluray-esubs-download/"
+check=input("enter page number")
+if check!=1:
+	url="http://extramovies.cc/page/"+str(check)
+else:
+	url = "http://extramovies.cc/"
+#url2 = raw_input("Enter Link")
 soup = make_soup(url)
 movies = soup.findAll("div", {"class": "thumbnail"})
 all_data=[]
-
 #all movies links are stored here
 for every_movie in movies:
 	a_tag=every_movie.findAll("a")
@@ -29,7 +32,8 @@ for every_movie in movies:
 
 	all_data.append([title,final])
 
-print all_data
+for i in all_data:
+	print i[0]+ " " + i[1]
 '''
 #print all_data[0][1]
 all_download_links=[]
