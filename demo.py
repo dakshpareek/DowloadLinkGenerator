@@ -1,7 +1,7 @@
 import requests
-import os,webbrowser
+import ssl
 from bs4 import BeautifulSoup
-import Image
+from PIL import Image
 import urllib, cStringIO
 
 def make_soup(url):
@@ -30,13 +30,17 @@ for every_movie in movies:
 for i,j in enumerate(all_data):
 	print "ID:",i,j[0]
 
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+
 req=input("Enter ID to get Download Link: ")
 soup2=make_soup(all_data[req][1])
 img=soup2.findAll("img",{"class": "alignnone"})
 for j in range(1,len(img)):
 	i=img[j].attrs["src"]
 	#print i
-	file = cStringIO.StringIO(urllib.urlopen(i).read())
+	file = cStringIO.StringIO(urllib.urlopen(i,context=ctx).read())
 	im = Image.open(file)
 	im.show()
 
