@@ -1,6 +1,8 @@
 import requests
 import os,webbrowser
 from bs4 import BeautifulSoup
+import Image
+import urllib, cStringIO
 
 def make_soup(url):
     try:
@@ -33,5 +35,17 @@ soup2=make_soup(all_data[req][1])
 img=soup2.findAll("img",{"class": "alignnone"})
 for j in range(1,len(img)):
 	i=img[j].attrs["src"]
-	print i
-	webbrowser.open(i)
+	#print i
+	file = cStringIO.StringIO(urllib.urlopen(i).read())
+	im = Image.open(file)
+	im.show()
+
+'''
+d_link=soup2.findAll("a",{"class": "buttn blue"})
+f_link='http://extramovies.cc'+str(d_link[0].attrs["href"])
+soup3=make_soup(f_link)
+last_link=soup3.findAll("a")
+final=last_link[len(last_link)-2].attrs["href"]
+
+print final
+'''
